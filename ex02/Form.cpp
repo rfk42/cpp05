@@ -18,12 +18,18 @@ Form::Form() : name("Default"), sign(false), signGrade(1), execGrade(1)
 	std::cout << "Form default constructor has been called" << std::endl;
 }
 
-Form::Form(const std::string name, const int signGrade, const int execGrade) : name(name), sign(false), signGrade(signGrade), execGrade(execGrade)
+Form::Form(const std::string name, const int signGrade, const int execGrade)
+	: name(name), sign(false), signGrade(signGrade), execGrade(execGrade)
 {
 	std::cout << "Constructor " << name << " has been called" << std::endl;
+	if (signGrade < 1 || execGrade < 1)
+		throw GradeTooHighException();
+	if (signGrade > 150 || execGrade > 150)
+		throw GradeTooLowException();
 }
 
-Form::Form(const Form &src) : name(src.name), sign(src.sign), signGrade(src.signGrade), execGrade(src.execGrade)
+Form::Form(const Form &src)
+	: name(src.name), sign(src.sign), signGrade(src.signGrade), execGrade(src.execGrade)
 {
 	std::cout << "Form copy constructor called" << std::endl;
 }
@@ -49,6 +55,15 @@ void	Form::beSigned(Bureaucrat const &src)
 		throw GradeTooLowException();
 }
 
+void	Form::execute(Bureaucrat const &executor) const
+{
+	if (this->sign == false)
+		throw FormNotSignedException();
+	if (executor.getGrade() > this->execGrade)
+		throw GradeTooLowException();
+	this->executeAction();
+}
+
 std::string const Form::getName() const
 {
 	return (this->name);
@@ -69,18 +84,27 @@ int	Form::getExecGrade() const
 	return (this->execGrade);
 }
 
-const char * Form::GradeTooHighException::what() const throw()
+const char *Form::GradeTooHighException::what() const throw()
 {
 	return ("grade is too High");
 }
 
-const char * Form::GradeTooLowException::what() const throw()
+const char *Form::GradeTooLowException::what() const throw()
 {
 	return ("grade is too Low");
 }
 
+const char *Form::FormNotSignedException::what() const throw()
+{
+	return ("form is not Signed");
+}
+
 std::ostream &operator<<(std::ostream &os, Form const &src)
 {
-	os << src.getName() << ", Signed : " << src.getSigned() << ", SignGrade : " << src.getSignGrade() << ", ExecGrade : " << src.getExecGrade() << std::endl;
+	os << src.getName()
+	   << ", Signed : " << src.getSigned()
+	   << ", SignGrade : " << src.getSignGrade()
+	   << ", ExecGrade : " << src.getExecGrade()
+	   << std::endl;
 	return (os);
 }

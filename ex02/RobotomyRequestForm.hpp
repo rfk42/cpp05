@@ -7,11 +7,21 @@
 #include "Form.hpp"
 #include "Bureaucrat.hpp"
 
-class RobotomyResquestForm ; class Form
+class RobotomyRequestForm : public Form
 {
 private:
+	std::string target;
 
 public:
+	RobotomyRequestForm();
+	RobotomyRequestForm(const std::string target);
+	RobotomyRequestForm(const RobotomyRequestForm &src);
+
+	RobotomyRequestForm &operator=(const RobotomyRequestForm &src);
+	~RobotomyRequestForm();
+
+protected:
+	void executeAction() const;
 };
 
 #endif

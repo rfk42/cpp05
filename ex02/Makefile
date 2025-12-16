@@ -6,9 +6,9 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98
 
 NAME = Main
 
-SRC = main.cpp Bureaucrat.cpp Form.cpp
+SRC = main.cpp Bureaucrat.cpp Form.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp
 
-INCLUDE = Bureaucrat.hpp Form.hpp
+INCLUDE = Bureaucrat.hpp Form.hpp ShrubberyCreationForm.hpp RobotomyRequestForm.hpp PresidentialPardonForm.hpp
 
 OBJ = $(SRC:.cpp=.o)
 
